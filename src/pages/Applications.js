@@ -1,8 +1,9 @@
 import profilePhoto from '../assets/images/profilePhoto.png';
+import Footer from '../layouts/Footer';
 
 const Applications = () => {
   return (
-    <div className="flex-grow flex flex-col justify-center-top ">
+    <div className="flex-grow flex flex-col justify-center-top">
       <div className="flex justify-between items-center bg-gray-200 py-4 px-6">
         <div className="flex items-center">
           <input
@@ -19,7 +20,7 @@ const Applications = () => {
           <span className="text-gray-700 font-medium">Ali Dönmez</span>
         </div>
       </div>
-      <div className="main">
+      <div className="main mt-5">
         <form className="max-w-3xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="transcript">
@@ -62,6 +63,7 @@ const Applications = () => {
           </button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

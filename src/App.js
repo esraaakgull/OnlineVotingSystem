@@ -6,7 +6,7 @@ function App() {
   const user = true;
   if (user) {
     return (
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex overflow-hidden">
         <Sidebar />
         <Routes>
           {Object.keys(pages.userPages).map((page, index) => (
