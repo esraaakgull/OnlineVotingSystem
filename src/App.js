@@ -1,12 +1,15 @@
 import Sidebar from './layouts/Sidebar';
 import { Route, Routes } from 'react-router-dom';
 import { pages } from './constants/pages';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-  const user = true;
+  const user = false;
   if (user) {
     return (
       <div className="flex overflow-hidden">
+        <ToastContainer />
         <Sidebar />
         <Routes>
           {Object.keys(pages.userPages).map((page, index) => (
@@ -23,6 +26,7 @@ function App() {
   } else {
     return (
       <div>
+        <ToastContainer />
         <Routes>
           <Route
             exact
