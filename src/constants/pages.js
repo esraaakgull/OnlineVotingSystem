@@ -1,21 +1,48 @@
-import Home from '../pages/home/Home';
 import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
+import Voting from '../pages/Voting';
+import Applications from '../pages/Applications';
 
 export const pages = {
   userPages: {
     home: {
-      title: 'Anasayfa',
+      title: 'Dashboard',
       path: '/',
-      element: <Home />,
+      element: <Dashboard />,
       icon: 'fa-home'
     },
-    login: {
-      title: 'Giriş Yap',
-      path: '/login',
-      element: <Login />,
+    profile: {
+      title: 'Profile',
+      path: '/profile',
+      //  element: <Profile />,
       icon: 'fa-user'
+    },
+    voting: {
+      title: 'Voting',
+      path: '/voting',
+      element: <Voting />,
+      icon: 'fa-person-booth'
+    },
+    applications: {
+      title: 'Applications',
+      path: '/applications',
+      element: <Applications />,
+      icon: 'fa-paperclip'
+    },
+    logout: {
+      title: 'Logout',
+      path: '/logout',
+      // element: <Logout />,
+      icon: 'fa-arrow-right-from-bracket'
     }
   },
   adminPages: {},
-  otherPages: {}
+  otherPages: {
+    login: {
+      title: 'Login',
+      path: '/',
+      element: <Login />,
+      icon: 'fa-home'
+    }
+  }
 };
