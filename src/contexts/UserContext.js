@@ -34,7 +34,7 @@ export const UserContextProvider = ({ children }) => {
   };
   const getUser = (email, password) => {
     let res = null;
-    Object.keys(userCredentials)?.map((user, index) => {
+    Object.keys(userCredentials)?.map((user) => {
       if (userCredentials[user].email === email && userCredentials[user].password === password) {
         res = userCredentials[user];
       }

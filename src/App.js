@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useContext } from 'react';
 import UserContext from './contexts/UserContext';
-import { getFromLocalStorage } from './helpers/storage';
 
 function App() {
   const userContext = useContext(UserContext);
