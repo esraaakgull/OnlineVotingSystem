@@ -1,8 +1,12 @@
+import profilePhoto from '../assets/images/profilePhoto.png';
+
 export const userCredentials = {
   user1: {
-    name: 'Example',
-    email: 'example@iyte.edu.tr',
-    password: 'examplePassword',
-    token: 'tokenExample'
+    name: 'Esra',
+    surname: 'Akgül',
+    email: 'esraakgul@iyte.edu.tr',
+    password: 'esra',
+    token: 'tokenExample',
+    image: profilePhoto
   }
 };

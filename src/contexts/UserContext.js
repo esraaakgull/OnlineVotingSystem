@@ -9,6 +9,8 @@ const UserContext = createContext(null);
 export const UserContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [isVoted, setIsVoted] = useState(false);
+  const [votedFor, setVotedFor] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
 
   const logout = async () => {
@@ -19,7 +21,7 @@ export const UserContextProvider = ({ children }) => {
   const load = (paramToken = null) => {
     const token = paramToken || getFromLocalStorage(process.env.jwtStorageName);
     if (token) {
-      Object.keys(userCredentials)?.map((user) => {
+      Object.keys(userCredentials)?.forEach((user) => {
         if (userCredentials[user].token === token) {
           setUser(userCredentials[user]);
         }
@@ -34,7 +36,7 @@ export const UserContextProvider = ({ children }) => {
   };
   const getUser = (email, password) => {
     let res = null;
-    Object.keys(userCredentials)?.map((user) => {
+    Object.keys(userCredentials)?.forEach((user) => {
       if (userCredentials[user].email === email && userCredentials[user].password === password) {
         res = userCredentials[user];
       }
@@ -73,7 +75,11 @@ export const UserContextProvider = ({ children }) => {
         user,
         login,
         logout,
-        getPages
+        getPages,
+        isVoted,
+        setIsVoted,
+        votedFor,
+        setVotedFor
       }}>
       {children}
     </UserContext.Provider>
