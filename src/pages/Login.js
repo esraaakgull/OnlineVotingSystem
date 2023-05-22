@@ -1,17 +1,20 @@
 import logo from '../assets/images/iyte.png';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { showWarningNotification } from '../helpers/toasts';
+import UserContext from '../contexts/UserContext';
 
 const Login = () => {
+  const userContext = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!email || !password) {
       showWarningNotification("Please don't pass empty any required field");
       return;
     }
-    console.log(email, ' ', password);
+    const res = await userContext.login(email, password);
+    if (!res) showWarningNotification('Wrong credentials! Please check your email and password');
   };
 
   return (

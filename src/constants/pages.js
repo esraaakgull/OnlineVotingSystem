@@ -5,7 +5,7 @@ import Applications from '../pages/Applications';
 
 export const pages = {
   userPages: {
-    home: {
+    dashboard: {
       title: 'Dashboard',
       path: '/',
       element: <Dashboard />,
@@ -13,7 +13,7 @@ export const pages = {
     },
     profile: {
       title: 'Profile',
-      path: '/profile',
+      path: '/',
       //  element: <Profile />,
       icon: 'fa-user'
     },
@@ -31,8 +31,7 @@ export const pages = {
     },
     logout: {
       title: 'Logout',
-      path: '/logout',
-      // element: <Logout />,
+      path: '',
       icon: 'fa-arrow-right-from-bracket'
     }
   },

@@ -3,9 +3,13 @@ import { Route, Routes } from 'react-router-dom';
 import { pages } from './constants/pages';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useContext } from 'react';
+import UserContext from './contexts/UserContext';
+import { getFromLocalStorage } from './helpers/storage';
 
 function App() {
-  const user = false;
+  const userContext = useContext(UserContext);
+  const user = userContext.user;
   if (user) {
     return (
       <div className="flex overflow-hidden">
