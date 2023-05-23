@@ -4,8 +4,8 @@ export const userCredentials = {
   user1: {
     name: 'Esra',
     surname: 'Akgül',
-    email: 'esraakgul@iyte.edu.tr',
-    password: 'esra',
+    email: 'example@std.iyte.edu.tr',
+    password: 'examplePassword',
     token: 'tokenExample',
     image: profilePhoto
   }

@@ -10,8 +10,9 @@ export const UserContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isVoted, setIsVoted] = useState(false);
-  const [votedFor, setVotedFor] = useState(0);
+  const [votedFor, setVotedFor] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [applications, setApplications] = useState(null);
 
   const logout = async () => {
     localStorage.removeItem(process.env.jwtStorageName);
@@ -79,7 +80,9 @@ export const UserContextProvider = ({ children }) => {
         isVoted,
         setIsVoted,
         votedFor,
-        setVotedFor
+        setVotedFor,
+        applications,
+        setApplications
       }}>
       {children}
     </UserContext.Provider>

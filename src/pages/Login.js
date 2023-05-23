@@ -1,6 +1,6 @@
 import logo from '../assets/images/iyte.png';
 import { useContext, useState } from 'react';
-import { showWarningNotification } from '../helpers/toasts';
+import { showSuccessNotification, showWarningNotification } from '../helpers/toasts';
 import UserContext from '../contexts/UserContext';
 
 const Login = () => {
@@ -14,7 +14,11 @@ const Login = () => {
       return;
     }
     const res = await userContext.login(email, password);
-    if (!res) showWarningNotification('Wrong credentials! Please check your email and password');
+    if (!res) {
+      showWarningNotification('Login Unsuccessful. Please check your password or email');
+      return;
+    }
+    showSuccessNotification('Login is successful.');
   };
 
   return (
@@ -70,7 +74,7 @@ const Login = () => {
                 </button>
                 <a
                   className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                  href="/#">
+                  href="https://obs.iyte.edu.tr/">
                   Forgot Password?
                 </a>
               </div>
