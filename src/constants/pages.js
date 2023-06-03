@@ -1,7 +1,16 @@
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
-import Voting from '../pages/Voting';
-import Applications from '../pages/Applications';
+import Voting from '../pages/userPages/Voting';
+import Applications from '../pages/userPages/Applications';
+import ElectionCalendar from '../pages/userPages/ElectionCalendar';
+import ElectionResults from '../pages/userPages/ElectionResults';
+import AnnounceResults from '../pages/adminPages/AnnounceResults';
+import VotingViewOnly from '../pages/adminPages/VotingViewOnly';
+import ViewApplications from '../pages/adminPages/ViewApplications';
+import EnterSchedule from '../pages/adminPages/EnterSchedule';
+import SendNotification from '../pages/adminPages/SendNotification';
+import AddNewsAnnouncements from '../pages/adminPages/AddNewsAnnouncements';
+import Announcement from '../pages/Announcement';
 
 export const pages = {
   userPages: {
@@ -10,12 +19,6 @@ export const pages = {
       path: '/',
       element: <Dashboard />,
       icon: 'fa-home'
-    },
-    profile: {
-      title: 'Profile',
-      path: '/',
-      //  element: <Profile />,
-      icon: 'fa-user'
     },
     voting: {
       title: 'Voting',
@@ -35,13 +38,71 @@ export const pages = {
       icon: 'fa-arrow-right-from-bracket'
     }
   },
-  adminPages: {},
-  otherPages: {
-    login: {
-      title: 'Login',
+  login: {
+    path: '/',
+    element: <Login />
+  },
+  adminPages: {
+    dashboard: {
+      title: 'Dashboard',
       path: '/',
-      element: <Login />,
+      element: <Dashboard />,
       icon: 'fa-home'
+    },
+    voting: {
+      title: 'Voting (View Only)',
+      path: '/voting',
+      element: <VotingViewOnly />,
+      icon: 'fa-eye'
+    },
+    announceResults: {
+      title: 'Announce Results',
+      path: '/announceResults',
+      element: <AnnounceResults />,
+      icon: 'fa-bullhorn'
+    },
+    viewApplications: {
+      title: 'View Applications',
+      path: '/viewApplications',
+      element: <ViewApplications />,
+      icon: 'fa-file-pdf'
+    },
+    enterSchedule: {
+      title: 'Enter Schedule',
+      path: '/enterSchedule',
+      element: <EnterSchedule />,
+      icon: 'fa-calendar'
+    },
+    addNews: {
+      title: 'Add News-Announcement',
+      path: '/addNewsAnnouncement',
+      element: <AddNewsAnnouncements />,
+      icon: 'fa-pen'
+    },
+    sendNotification: {
+      title: 'Send Notification',
+      path: '/sendNotification',
+      element: <SendNotification />,
+      icon: 'fa-envelope'
+    },
+    logout: {
+      title: 'Logout',
+      path: '',
+      icon: 'fa-arrow-right-from-bracket'
+    }
+  },
+  commonPages: {
+    electionCalendar: {
+      path: '/electionCalendar',
+      element: <ElectionCalendar />
+    },
+    electionResults: {
+      path: '/electionResults',
+      element: <ElectionResults />
+    },
+    announcement: {
+      path: '/announcement/:id',
+      element: <Announcement />
     }
   }
 };

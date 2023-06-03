@@ -1,9 +1,10 @@
-import Header from '../layouts/Header';
+import Header from '../../layouts/Header';
 import { useContext, useEffect, useState } from 'react';
-import UserContext from '../contexts/UserContext';
-import { showErrorNotification, showSuccessNotification } from '../helpers/toasts';
+import UserContext from '../../contexts/UserContext';
+import { showErrorNotification, showSuccessNotification } from '../../helpers/toasts';
 import classNames from 'classnames';
-import Footer from '../layouts/Footer';
+import Footer from '../../layouts/Footer';
+import ApplicationStatus from '../../components/ApplicationStatus';
 
 const Applications = () => {
   const userContext = useContext(UserContext);
@@ -64,13 +65,20 @@ const Applications = () => {
   return (
     <div className="flex-grow flex flex-col justify-center-top">
       <Header />
-      <div className="main mt-4">
-        <div className="row justify-content-center pb-2">
-          <p className="h4 text-danger font-weight-bold">
-            {userContext.applications
-              ? 'Thank you! You uploaded all your necessary documents.'
-              : 'Please upload all necessary documents if you want be a candidate.'}
-          </p>
+      {userContext.applications && <ApplicationStatus />}
+      <div className="main p-2">
+        <div className="row justify-content-center ">
+          <div className="col-md-12 text-center">
+            <p
+              className={classNames('h4 font-weight-bold', {
+                'text-success': userContext.applications,
+                'text-danger': !userContext.applications
+              })}>
+              {userContext.applications
+                ? 'Thank you! You uploaded all your necessary documents.'
+                : 'Please upload all necessary documents if you want be a candidate.'}
+            </p>
+          </div>
         </div>
         <form className="max-w-3xl mx-auto bg-light border border-dark shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
@@ -157,7 +165,7 @@ const Applications = () => {
             type="button"
             onClick={handleSubmit}
             disabled={userContext.applications}>
-            > Submit Documents
+            Submit Documents
           </button>
         </form>
       </div>

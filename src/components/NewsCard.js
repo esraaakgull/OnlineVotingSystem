@@ -1,7 +1,7 @@
 import logo from '../assets/images/iyte.png';
 import { Link } from 'react-router-dom';
 
-const AnnouncementCard = ({ data }) => {
+const NewsCard = ({ data }) => {
   return (
     <div className="col-md-3 border border-dark rounded m-3">
       <div className="col m-1">
@@ -17,7 +17,7 @@ const AnnouncementCard = ({ data }) => {
           <p className="card-text">{data.description}</p>
         </div>
         <div className="row p-1">
-          <Link to={data.path}>
+          <Link to={`/announcement/${data.id}`}>
             <button className="btn btn-danger">GO TO ANNOUNCEMENT</button>
           </Link>
         </div>
@@ -26,4 +26,4 @@ const AnnouncementCard = ({ data }) => {
   );
 };
 
-export default AnnouncementCard;
+export default NewsCard;

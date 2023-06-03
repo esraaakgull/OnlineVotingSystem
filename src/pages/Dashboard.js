@@ -1,20 +1,19 @@
 import AnnouncementCard from '../components/AnnouncementCard';
 import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
+import { announcements, otherNewsAndAnnouncements } from '../constants/announcements';
+import NewsCard from '../components/NewsCard';
 
 const Dashboard = () => {
   return (
-    <div className="flex-grow flex flex-col justify-center-top ">
+    <div className="flex-grow flex flex-col">
       <Header />
-      <div className="card-deck m-2">
-        <div className="row">
-          <AnnouncementCard />
-          <AnnouncementCard />
-          <AnnouncementCard />
-          <AnnouncementCard />
-          <AnnouncementCard />
-          <AnnouncementCard />
-        </div>
+      <div className="row justify-content-center ">
+        <AnnouncementCard data={announcements.electionCalendar} />
+        <AnnouncementCard data={announcements.electionResults} />
+        {otherNewsAndAnnouncements.map((announce) => (
+          <NewsCard data={announce} />
+        ))}
       </div>
       <Footer />
     </div>

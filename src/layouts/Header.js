@@ -5,7 +5,7 @@ const Header = () => {
   const userContext = useContext(UserContext);
   const user = userContext.user;
   return (
-    <div className="flex justify-between items-center bg-gray-100 py-4 px-6">
+    <div className="flex justify-between items-center bg-gray-200 py-4 px-6">
       <div className="flex items-center">
         <input
           type="text"

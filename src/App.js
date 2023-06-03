@@ -10,17 +10,21 @@ function App() {
   const userContext = useContext(UserContext);
   const user = userContext.user;
   if (user) {
+    // user pages
+    // const pagesToDisplay = { ...pages.userPages, ...pages.commonPages };
+    const pagesToDisplay = { ...pages.adminPages, ...pages.commonPages };
+
     return (
       <div className="flex overflow-hidden">
         <ToastContainer />
         <Sidebar />
         <Routes>
-          {Object.keys(pages.userPages).map((page, index) => (
+          {Object.keys(pagesToDisplay).map((page, index) => (
             <Route
               exact
-              path={pages.userPages[page].path}
-              element={pages.userPages[page].element}
-              key={`otherPages${index}`}
+              path={pagesToDisplay[page].path}
+              element={pagesToDisplay[page].element}
+              key={`userPages${index}`}
             />
           ))}
         </Routes>
@@ -31,11 +35,7 @@ function App() {
       <div>
         <ToastContainer />
         <Routes>
-          <Route
-            exact
-            path={pages.otherPages.login.path}
-            element={pages.otherPages.login.element}
-          />
+          <Route exact path={pages.login.path} element={pages.login.element} />
         </Routes>
       </div>
     );

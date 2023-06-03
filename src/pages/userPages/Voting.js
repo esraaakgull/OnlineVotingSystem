@@ -1,10 +1,10 @@
 import classNames from 'classnames';
-import ApplicantCard from '../components/ApplicantCard';
-import Header from '../layouts/Header';
-import { applicants } from '../constants/applicants';
+import ApplicantCard from '../../components/ApplicantCard';
+import Header from '../../layouts/Header';
+import { applicants } from '../../constants/applicants';
 import { useContext, useEffect, useState } from 'react';
-import { showErrorNotification, showSuccessNotification } from '../helpers/toasts';
-import UserContext from '../contexts/UserContext';
+import { showErrorNotification, showSuccessNotification } from '../../helpers/toasts';
+import UserContext from '../../contexts/UserContext';
 
 const Voting = () => {
   const [selectedApplicant, setSelectedApplicant] = useState(null);
@@ -28,7 +28,11 @@ const Voting = () => {
     <div className="flex-grow flex flex-col justify-center pb-3">
       <Header />
       <div className="flex-grow flex flex-col justify-center items-center">
-        <p className="h4 text-danger font-weight-bold p-2">
+        <p
+          className={classNames('h4 font-weight-bold p-2', {
+            'text-success': userContext.isVoted,
+            'text-danger': !userContext.isVoted
+          })}>
           {userContext.isVoted
             ? 'Thank you! You have voted for this election.'
             : 'Please select one candidate for election.'}
