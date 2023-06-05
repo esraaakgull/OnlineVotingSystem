@@ -11,8 +11,8 @@ function App() {
   const user = userContext.user;
   if (user) {
     // user pages
-    // const pagesToDisplay = { ...pages.userPages, ...pages.commonPages };
-    const pagesToDisplay = { ...pages.adminPages, ...pages.commonPages };
+    //const pagesToDisplay = { ...pages.userPages, ...pages.commonPages };
+     const pagesToDisplay = { ...pages.adminPages, ...pages.commonPages };
 
     return (
       <div className="flex overflow-hidden">

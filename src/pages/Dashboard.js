@@ -11,8 +11,8 @@ const Dashboard = () => {
       <div className="row justify-content-center ">
         <AnnouncementCard data={announcements.electionCalendar} />
         <AnnouncementCard data={announcements.electionResults} />
-        {otherNewsAndAnnouncements.map((announce) => (
-          <NewsCard data={announce} />
+        {otherNewsAndAnnouncements.map((announce , index) => (
+          <NewsCard data={announce} key={index} />
         ))}
       </div>
       <Footer />

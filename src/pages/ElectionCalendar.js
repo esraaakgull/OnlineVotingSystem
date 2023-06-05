@@ -1,8 +1,8 @@
-import Header from '../../layouts/Header';
+import Header from '../layouts/Header';
 
 const ElectionCalendar = () => {
   return (
-    <div className="flex-grow flex flex-col justify-center-top">
+    <div className="flex-grow flex flex-col justify-center-top vh-100">
       <Header />
       <div className="main mt-4">
         <div className="justify-items-center center-table ">

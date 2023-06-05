@@ -2,7 +2,7 @@ import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import Voting from '../pages/userPages/Voting';
 import Applications from '../pages/userPages/Applications';
-import ElectionCalendar from '../pages/userPages/ElectionCalendar';
+import ElectionCalendar from '../pages/ElectionCalendar';
 import ElectionResults from '../pages/userPages/ElectionResults';
 import AnnounceResults from '../pages/adminPages/AnnounceResults';
 import VotingViewOnly from '../pages/adminPages/VotingViewOnly';
