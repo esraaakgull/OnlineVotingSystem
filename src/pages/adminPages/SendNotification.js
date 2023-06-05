@@ -1,6 +1,27 @@
+import { useState } from 'react';
 import Header from '../../layouts/Header';
+import { sendNotification } from '../../helpers/api';
+import classNames from 'classnames';
+import { showSuccessNotification } from '../../helpers/toasts';
+import { showErrorNotification } from '../../helpers/toasts';
 
 const SendNotification = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmitNotification = async () => {
+    setIsLoading(true);
+    const res = await sendNotification(title, description);
+
+    setIsLoading(false);
+    if (res.status === 200) {
+      showSuccessNotification('Bildirim Gönderildi!');
+    } else {
+      showErrorNotification('Hata Oluştu!');
+    }
+  };
+
   return (
     <div className="flex-grow flex-col justify-content-center">
       <Header />
@@ -11,7 +32,7 @@ const SendNotification = () => {
         <div className="col"></div>
         <div className="col-md-6 p-2 ms-4 me-4 border border-dark rounded ">
           <form>
-            <div className="col p-2">
+            {/*<div className="col p-2">
               <label htmlFor="file" className="block font-medium">
                 File:
               </label>
@@ -22,7 +43,7 @@ const SendNotification = () => {
                 placeholder="Title.."
                 className="w-full bg-gray-200 border-2 border-gray-300 rounded py-2 px-4"
               />
-            </div>
+  </div> */}
             <div className="col p-2">
               <label htmlFor="title" className="block font-medium">
                 Title:
@@ -32,6 +53,10 @@ const SendNotification = () => {
                 id="title"
                 name="title"
                 placeholder="Title.."
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
                 className="w-full bg-gray-200 border-2 border-gray-300 rounded py-2 px-4"
               />
             </div>
@@ -41,6 +66,10 @@ const SendNotification = () => {
               </label>
               <textarea
                 id="message"
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
                 name="message"
                 rows="10"
                 className="w-full bg-gray-200 border-2 border-gray-300 rounded py-2 px-4"
@@ -48,8 +77,13 @@ const SendNotification = () => {
             </div>
             <div className="col-md-3 p-2 ">
               <button
+                onClick={handleSubmitNotification}
+                disabled={isLoading}
                 type="button"
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                className={classNames('bg-red-500 text-white font-bold py-2 px-4 rounded', {
+                  'bg-red-400': isLoading,
+                  'hover:bg-red-600': !isLoading
+                })}>
                 Send
               </button>
             </div>

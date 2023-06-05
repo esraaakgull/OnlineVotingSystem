@@ -3,7 +3,7 @@ import Dashboard from '../pages/Dashboard';
 import Voting from '../pages/userPages/Voting';
 import Applications from '../pages/userPages/Applications';
 import ElectionCalendar from '../pages/ElectionCalendar';
-import ElectionResults from '../pages/userPages/ElectionResults';
+import ElectionResults from '../pages/ElectionResults';
 import AnnounceResults from '../pages/adminPages/AnnounceResults';
 import VotingViewOnly from '../pages/adminPages/VotingViewOnly';
 import ViewApplications from '../pages/adminPages/ViewApplications';
@@ -101,7 +101,7 @@ export const pages = {
       element: <ElectionResults />
     },
     announcement: {
-      path: '/announcement/:id',
+      path: '/announcements/:id',
       element: <Announcement />
     }
   }

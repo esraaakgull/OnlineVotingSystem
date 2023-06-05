@@ -2,7 +2,7 @@ import logo from '../assets/images/iyte.png';
 import { Link } from 'react-router-dom';
 
 const NewsCard = ({ data }) => {
-  return (
+    return (
     <div className="col-md-3 border border-dark rounded m-3">
       <div className="col m-1">
         <div className="row p-1">
@@ -17,7 +17,7 @@ const NewsCard = ({ data }) => {
           <p className="card-text">{data.description}</p>
         </div>
         <div className="row p-1">
-          <Link to={`/announcement/${data.id}`}>
+          <Link to={`/announcements/${data.announcementId}`}>
             <button className="btn btn-danger">GO TO ANNOUNCEMENT</button>
           </Link>
         </div>

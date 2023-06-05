@@ -1,10 +1,21 @@
+import { useEffect, useState } from 'react';
+import { findAnnounce } from '../helpers/api';
 import Header from '../layouts/Header';
 import { useParams } from 'react-router-dom';
-import { findAnnounce } from '../helpers/announcementHelper';
 
 const Announcement = () => {
   const params = useParams();
-  const announce = findAnnounce(parseInt(params.id));
+  const [announce, setAnnounce] = useState({});
+
+  const getAnnounce = async () => {
+    const res = await findAnnounce(parseInt(params.id));
+    console.log(res.data)
+    setAnnounce(res.data);
+  };
+
+  useEffect(() => {
+    getAnnounce();
+  }, []);
 
   return (
     <div className="flex-grow flex-col justify-center-top vh-100 ">
@@ -15,7 +26,7 @@ const Announcement = () => {
           <div>
             <div className="news">
               <div className="container">
-                <p className="font-weight-bold">{announce.text}</p>
+                <p className="font-weight-bold">{announce.description}</p>
               </div>
             </div>
           </div>

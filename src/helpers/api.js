@@ -157,3 +157,71 @@ export const approveApplication = (applicationId) => {
     return axios.post("http://localhost:8082/applications/approve/6",{});
     
 }
+
+export const sendNotification = async (title, description) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8082/notifications', {
+      title:title,
+      description: description
+    })
+    .then((res) => { return res})
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
+
+export const addAnnouncement = async (title, description) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8082/announcements', {
+      title:title,
+      description: description
+    })
+    .then((res) => { return res})
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
+
+export const getAllAnnouncements = async () => {
+  let response = null;
+  try {
+      response = axios.get('http://localhost:8082/announcements')
+    .then((res) => { return res})
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
+
+
+export const findAnnounce = async (id) => {
+  let response = null;
+  try {
+      response = axios.get('http://localhost:8082/announcements/' + id)
+    .then((res) => { return res})
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
+
+export const getAllResultsFromDatabase = async () => {
+  let response = null;
+  try {
+      response = axios.get('http://localhost:8082/elections/results')
+    .then((res) => { return res})
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
+
