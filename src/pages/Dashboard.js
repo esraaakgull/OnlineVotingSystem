@@ -4,7 +4,7 @@ import Header from '../layouts/Header';
 import { announcements } from '../constants/announcements';
 import NewsCard from '../components/NewsCard';
 import { useEffect, useState } from 'react';
-import { getAllAnnouncements } from '../helpers/api';
+import { getAllAnnouncements, handleLogin } from '../helpers/api';
 
 const Dashboard = () => {
   const [news, setNews] = useState([])
@@ -15,6 +15,7 @@ const Dashboard = () => {
   }
   useEffect(()=> {
     getAnnouncements();
+    handleLogin("ahmetcan@std.iyte.edu.tr","33323");
   },[])
 
   return (

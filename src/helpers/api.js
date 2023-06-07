@@ -255,3 +255,137 @@ export const submitVoting = async (userId,candidateId) => {
   }
   return response;
 };
+
+export const handleLogin = async (email,password) => {
+
+  const isAvailableEmail = await isValidEmailOrNot(email);
+  console.log(isAvailableEmail);
+  // console.log(res.status); returns 200
+  if(isAvailableEmail.status === 200){
+    const isValidToLoginToSystem = await loginToSystem(email,password);
+    if(isValidToLoginToSystem.status ===  200) {
+        const userInfo = await getUserInfo(email);
+        console.log(userInfo);
+        if(userInfo.isAdmin === true) {
+          // Admin Sayfasını açtır
+          // userInfo yu kullan
+        }else {
+          // Student sayfasını açtır.
+          // userInfo yu kullan
+        }
+    }
+    
+  }else if(isAvailableEmail.response.status === 404){
+    const isValidUser =  await loginToSystem(email,password);
+    
+    if(isValidUser.status === 200) {
+      const registrationInfo = await getAllInfoFromExternalToSave(email,password);
+      //console.log(registrationInfo.data);
+      const registerResponse = await registerUserIntoVotingSystem(registrationInfo.data);
+      console.log(registerResponse);
+      if(registrationInfo.data.isAdmin === true){
+        // Admin sayfasına yönlendir.
+        // userInfo yu kullan.
+      }else {
+        // Student sayfasına yönlendir.
+        // userInfo yu kullan.
+      }
+    }else {
+      // Notify username and password is invalid.
+    }
+    
+    
+  }
+
+}
+
+const isValidEmailOrNot = async (email) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8082/auth/isvalid', {
+        email:email
+      })
+    .then((res) => { 
+      return res;
+    })
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  
+  return response;
+};
+
+const loginToSystem = async (email,password) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8081/auth/log-in', {
+        email:email,
+        password:password
+      })
+    .then((res) => { 
+      return res;
+    })
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  
+  return response;
+};
+
+const getUserInfo = async (email) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8082/auth/log-in', {
+        email:email
+      })
+    .then((res) => { 
+      return res;
+    })
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  
+  return response;
+};
+const getAllInfoFromExternalToSave = async (email,password) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8081/auth/user/register-info', {
+        email:email,
+        password:password
+      })
+    .then((res) => { 
+      return res;
+    })
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  
+  return response;
+};
+const registerUserIntoVotingSystem = async (registrationInfo) => {
+  let response = null;
+  try {
+      response = axios.post('http://localhost:8082/auth/register', {
+        name:registrationInfo.name,
+        surname: registrationInfo.surname,
+        email: registrationInfo.email,
+        grade:registrationInfo.grade,
+        isAdmin:registrationInfo.isAdmin,
+        studentNumber:registrationInfo.studentNumber,
+        departmentName:registrationInfo.departmentName
+      })
+    .then((res) => { 
+      return res;
+    })
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  
+  return response;
+};
