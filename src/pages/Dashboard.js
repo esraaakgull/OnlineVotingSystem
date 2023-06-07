@@ -1,7 +1,7 @@
 import AnnouncementCard from '../components/AnnouncementCard';
 import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
-import { announcements, otherNewsAndAnnouncements } from '../constants/announcements';
+import { announcements } from '../constants/announcements';
 import NewsCard from '../components/NewsCard';
 import { useEffect, useState } from 'react';
 import { getAllAnnouncements } from '../helpers/api';

@@ -151,6 +151,7 @@ export const updateApplication = async (updatedApplication) => {
   } catch (err) {
     console.log(err);
   }
+  return res
 };
 
 export const approveApplication = (applicationId) => {
@@ -225,3 +226,32 @@ export const getAllResultsFromDatabase = async () => {
   return response;
 };
 
+export const gettAllApplicants = async (userId) => {
+  let response = null;
+  try {
+      response = axios.get('http://localhost:8082/voting/applicants/' + userId)
+    .then((res) => { return res})
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
+
+
+
+export const submitVoting = async (userId,candidateId) => {
+  let response = null;
+  try {
+      response = axios.put('http://localhost:8082/voting/user/' + userId +  '/canidate/' + candidateId)
+    .then((res) => { 
+      console.log(res.status);
+      return res;
+      
+    })
+    .catch((err) => {return err});
+  } catch (err) {
+    console.log(err);
+  }
+  return response;
+};
