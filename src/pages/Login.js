@@ -1,24 +1,28 @@
 import logo from '../assets/images/iyte.png';
 import { useContext, useState } from 'react';
-import { showSuccessNotification, showWarningNotification } from '../helpers/toasts';
+import { showErrorNotification, showSuccessNotification, showWarningNotification } from '../helpers/toasts';
 import UserContext from '../contexts/UserContext';
+import classNames from 'classnames';
 
 const Login = () => {
   const userContext = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     if (!email || !password) {
       showWarningNotification("Please don't pass empty any required field");
+      setIsSubmitting(false);
       return;
     }
     const res = await userContext.login(email, password);
-    if (!res) {
-      showWarningNotification('Login Unsuccessful. Please check your password or email');
-      return;
-    }
-    showSuccessNotification('Login is successful.');
+    setIsSubmitting(false);
+    if (res) 
+      showSuccessNotification('Login is successful.');
+    else
+      showErrorNotification('Please check your credentials')
   };
 
   return (
@@ -67,9 +71,13 @@ const Login = () => {
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   type="button"
-                  onClick={handleSubmit}>
+                  className={classNames('bg-red-500 text-white font-bold py-2 px-4 rounded', {
+                    'bg-red-400': isSubmitting,
+                    'hover:bg-red-600': !isSubmitting
+                  })}
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}>
                   Log In
                 </button>
                 <a

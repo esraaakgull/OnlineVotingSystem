@@ -3,53 +3,39 @@ import { getFromLocalStorage, setToLocalStorage } from '../helpers/storage';
 import { showErrorNotification } from '../helpers/toasts';
 import { useNavigate } from 'react-router-dom';
 import { pages } from '../constants/pages';
-import { userCredentials } from '../constants/userCredentials';
+import { handleLogin } from '../helpers/api';
 
 const UserContext = createContext(null);
 export const UserContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [isVoted, setIsVoted] = useState(false);
-  const [votedFor, setVotedFor] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [applications, setApplications] = useState(null);
 
   const logout = async () => {
-    localStorage.removeItem(process.env.jwtStorageName);
+    localStorage.removeItem('user');
     setUser(null);
-    navigate(pages.otherPages.login.path);
+    navigate(pages.login.path);
   };
-  const load = (paramToken = null) => {
-    const token = paramToken || getFromLocalStorage(process.env.jwtStorageName);
-    if (token) {
-      Object.keys(userCredentials)?.forEach((user) => {
-        if (userCredentials[user].token === token) {
-          setUser(userCredentials[user]);
-        }
-      });
+
+  const load = (strUser = null) => {
+    console.log(strUser);
+    const usr = strUser || JSON.parse(getFromLocalStorage('user')) ;
+    if (usr) {
+      setUser(usr);
     }
   };
 
   const getPages = () => {
-    if (user && isAdmin) return pages.adminPages;
-    else if (user) return pages.userPages;
-    else return null;
+    if (user && user.isAdmin) return pages.adminPages;
+    return pages.userPages;
   };
-  const getUser = (email, password) => {
-    let res = null;
-    Object.keys(userCredentials)?.forEach((user) => {
-      if (userCredentials[user].email === email && userCredentials[user].password === password) {
-        res = userCredentials[user];
-      }
-    });
-    return res;
-  };
+
   const setAuth = async (email, password) => {
     let res = null;
     try {
-      res = await getUser(email, password);
+      const { data } = await handleLogin(email, password);
+      res = data;
     } catch (err) {
-      showErrorNotification(err.response?.data.data.message);
+      showErrorNotification('Bir hata oluştu!');
     }
     return res;
   };
@@ -58,11 +44,10 @@ export const UserContextProvider = ({ children }) => {
     const user = await setAuth(email, password);
     if (!user) return false;
     setUser(user);
-    const token = user.token;
-
-    setToLocalStorage(process.env.jwtStorageName, token);
-    load(token);
-    navigate(pages.userPages.dashboard.path);
+    const userJson = JSON.stringify(user);
+    setToLocalStorage('user', userJson);
+    load(user);
+    navigate(pages.commonPages.main.path);
     return true;
   };
 
@@ -76,13 +61,7 @@ export const UserContextProvider = ({ children }) => {
         user,
         login,
         logout,
-        getPages,
-        isVoted,
-        setIsVoted,
-        votedFor,
-        setVotedFor,
-        applications,
-        setApplications
+        getPages
       }}>
       {children}
     </UserContext.Provider>

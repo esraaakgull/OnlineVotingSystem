@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-import { pages } from '../constants/pages';
 import UserContext from '../contexts/UserContext';
 import { useContext } from 'react';
 
 const Sidebar = () => {
   const userContext = useContext(UserContext);
-  const pagesToDisplay = pages.userPages;
-  //const pagesToDisplay = pages.adminPages;
+  const pagesToDisplay = userContext.getPages();
+
   return (
     <div className="flex flex-col w-64 bg-red-700 overflow-y-auto flex-shrink-0">
       <div className="flex justify-center text-center mt-10 text-5xl text-white">

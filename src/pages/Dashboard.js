@@ -4,7 +4,7 @@ import Header from '../layouts/Header';
 import { announcements } from '../constants/announcements';
 import NewsCard from '../components/NewsCard';
 import { useEffect, useState } from 'react';
-import { getAllAnnouncements, handleLogin } from '../helpers/api';
+import { getAllAnnouncements, handleLogin, setApplicationDates, setElectionDatess } from '../helpers/api';
 
 const Dashboard = () => {
   const [news, setNews] = useState([])
@@ -15,7 +15,9 @@ const Dashboard = () => {
   }
   useEffect(()=> {
     getAnnouncements();
-    handleLogin("ahmetcan@std.iyte.edu.tr","33323");
+    //handleLogin("ahmetcan@std.iyte.edu.tr","33323");
+    //setElectionDates("12-02-2022","21-02-2022");
+    //setApplicationDates("12-02-2023","10-03-2023");
   },[])
 
   return (
