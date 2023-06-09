@@ -5,62 +5,61 @@ import { showErrorNotification, showSuccessNotification } from '../../helpers/to
 import classNames from 'classnames';
 import Footer from '../../layouts/Footer';
 import ApplicationStatus from '../../components/ApplicationStatus';
+import { addApplicationFiles } from '../../helpers/api';
 
 const Applications = () => {
   const userContext = useContext(UserContext);
-  const [transcript, setTranscript] = useState('');
   const [politicalPartyDoc, setPoliticalPartyDoc] = useState('');
   const [studentCertificate, setStudentCertificate] = useState('');
   const [letter, setLetter] = useState('');
+  const [transcript, setTranscript] = useState('');
+  const formData = new FormData();
+  const formDataLetter = new FormData();
+  const formDataStudentCertificate = new FormData();
+  const formDataPoliticalPartyDoc = new FormData();
 
-  const checkFormat = (applications) => {
-    let validFormat = true;
-    Object.keys(applications).forEach((fileName) => {
-      const res = applications[fileName].split('.');
-      if (res[1] !== 'pdf') {
-        validFormat = false;
-      }
-    });
-    return validFormat;
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!transcript || !politicalPartyDoc || !studentCertificate || !letter) {
       showErrorNotification(
         'Some documents are missing. Please be sure that you uploaded 4 documents that are listed on the page.'
       );
       return false;
     }
-
-    const applications = {
-      transcript: transcript,
-      politicalPartyDoc: politicalPartyDoc,
-      studentCertificate: studentCertificate,
-      letter: letter
-    };
-
-    if (!checkFormat(applications)) {
-      showErrorNotification(
-        'Files are in unsupported format. Please be sure that you uploaded in the requested format.'
-      );
-      return;
+    if (
+      !checkFormat(transcript) ||
+      !checkFormat(politicalPartyDoc) ||
+      !checkFormat(studentCertificate) ||
+      !checkFormat(letter)
+    ) {
+      showErrorNotification('Lütfen belgelerinizi istenilen formatta yükleyin!');
+      return false;
     }
-
-    userContext.setApplications(applications);
-    showSuccessNotification(
-      'Documents have been sent successfully and Student has applied successfully.'
-    );
+    if (
+      !checkSize(transcript) ||
+      !checkSize(politicalPartyDoc) ||
+      !checkSize(studentCertificate) ||
+      !checkSize(letter)
+    ) {
+      showErrorNotification('Lütfen belgelerinizi istenilen boyutta yükleyin!');
+      return false;
+    }
+    formData.append('transcript', transcript);
+    formData.append('applicationRequest', letter);
+    formData.append('political', politicalPartyDoc);
+    formData.append('studentCertificate', studentCertificate);
+    const res = await addApplicationFiles(userContext.user.userId, formData);
+    if (res) {
+      showSuccessNotification('Tekbrikler! Tüm belgeler başarıyla yüklendi!');
+    } else {
+    }
   };
 
-  useEffect(() => {
-    if (userContext.applications) {
-      setTranscript(userContext.applications['transcript']);
-      setPoliticalPartyDoc(userContext.applications['politicalPartyDoc']);
-      setStudentCertificate(userContext.applications['studentCertificate']);
-      setLetter(userContext.applications['letter']);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const checkFormat = (fileToBeChecked) => {
+    const res = fileToBeChecked.name.split('.');
+    return res[1] === 'pdf';
+  };
+
+  const checkSize = (fileToBeChecked) => fileToBeChecked.size <= 2000000;
 
   return (
     <div className="flex-grow flex flex-col justify-center-top">
@@ -91,11 +90,11 @@ const Applications = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="transcript"
                 type="file"
-                onChange={(e) => setTranscript(e.target.files[0].name)}
+                onChange={(e) => setTranscript(e.target.files[0])}
               />
-              {userContext.applications && transcript && (
+              {transcript && (
                 <p className="text-success">
-                  <i className="fa fa-check" /> File uploaded : {transcript}
+                  <i className="fa fa-check" /> File uploaded : {transcript.name}
                 </p>
               )}
             </div>
@@ -109,11 +108,11 @@ const Applications = () => {
                 id="PartyDocument"
                 name="PartyDocument"
                 type="file"
-                onChange={(e) => setPoliticalPartyDoc(e.target.files[0].name)}
+                onChange={(e) => setPoliticalPartyDoc(e.target.files[0])}
               />
-              {userContext.applications && politicalPartyDoc && (
+              { politicalPartyDoc && (
                 <p className="text-success">
-                  <i className="fa fa-check" /> File uploaded : {politicalPartyDoc}
+                  <i className="fa fa-check" /> File uploaded : {politicalPartyDoc.name}
                 </p>
               )}
             </div>
@@ -127,11 +126,11 @@ const Applications = () => {
                 id="studentCertificate"
                 name="studentCertificate"
                 type="file"
-                onChange={(e) => setStudentCertificate(e.target.files[0].name)}
+                onChange={(e) => setStudentCertificate(e.target.files[0])}
               />
-              {userContext.applications && studentCertificate && (
+              {studentCertificate && (
                 <p className="text-success">
-                  <i className="fa fa-check" /> File uploaded : {studentCertificate}
+                  <i className="fa fa-check" /> File uploaded : {studentCertificate.name}
                 </p>
               )}
             </div>
@@ -145,26 +144,22 @@ const Applications = () => {
                 id="letter"
                 name="letter"
                 type="file"
-                onChange={(e) => setLetter(e.target.files[0].name)}
+                onChange={(e) => setLetter(e.target.files[0])}
               />
-              {userContext.applications && letter && (
+              {letter && (
                 <p className="text-success">
-                  <i className="fa fa-check" /> File uploaded : {letter}
+                  <i className="fa fa-check" /> File uploaded : {letter.name}
                 </p>
               )}
             </div>
           </div>
           <button
             className={classNames(
-              'bg-red-700 rounded-full text-white font-bold py-2 px-4 rounded',
-              {
-                'bg-red-400': userContext.applications,
-                'hover:bg-red-600': !userContext.applications
-              }
+              'hover:bg-red-600 bg-red-700 rounded-full text-white font-bold py-2 px-4 rounded'
             )}
             type="button"
             onClick={handleSubmit}
-            disabled={userContext.applications}>
+            >
             Submit Documents
           </button>
         </form>

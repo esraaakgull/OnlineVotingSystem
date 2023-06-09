@@ -13,10 +13,7 @@ import AddNewsAnnouncements from '../pages/adminPages/AddNewsAnnouncements';
 import Announcement from '../pages/Announcement';
 
 export const pages = {
-  login: {
-    path: '/',
-    element: <Login />
-  },
+  
   userPages: {
     dashboard: {
       title: 'Dashboard',
@@ -95,6 +92,10 @@ export const pages = {
     main:{
       title:'Title',
       path:'/',
+    },
+    login: {
+      path: '/',
+      element: <Login />
     },
     electionCalendar: {
       path: '/electionCalendar',

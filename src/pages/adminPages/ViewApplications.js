@@ -35,7 +35,7 @@ const ViewApplications = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [data]);
+  }, []);
 
   return (
     <div className="flex-grow flex flex-col justify-center pb-3 vh-100">

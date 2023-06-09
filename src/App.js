@@ -32,7 +32,7 @@ function App() {
       <div>
         <ToastContainer />
         <Routes>
-          <Route exact path={pages.login.path} element={pages.login.element} />
+          <Route exact path={pages.commonPages.login.path} element={pages.commonPages.login.element} />
         </Routes>
       </div>
     );

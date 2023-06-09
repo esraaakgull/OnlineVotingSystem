@@ -13,11 +13,10 @@ export const UserContextProvider = ({ children }) => {
   const logout = async () => {
     localStorage.removeItem('user');
     setUser(null);
-    navigate(pages.login.path);
+    navigate(pages.commonPages.login.path);
   };
 
   const load = (strUser = null) => {
-    console.log(strUser);
     const usr = strUser || JSON.parse(getFromLocalStorage('user')) ;
     if (usr) {
       setUser(usr);

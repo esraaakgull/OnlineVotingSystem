@@ -14,7 +14,7 @@ const Voting = () => {
   // userId isVoted checkIfUserVoted votedFor   *** userContextte tutulacak
   const userId = 4;
   const [isVoted, setIsVoted] = useState(false);
-  const [votedFor,setVotedFor] = useState('')
+  const [votedFor, setVotedFor] = useState('');
 
   const getApplicants = async () => {
     const res = await gettAllApplicants(userId);
@@ -41,12 +41,14 @@ const Voting = () => {
 
   useEffect(() => {
     getApplicants();
-    if (isVoted) setSelectedApplicant(votedFor)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isVoted) setSelectedApplicant(votedFor);
   }, []);
 
   return (
-    <div className="flex-grow flex flex-col justify-center pb-3 ">
+    <div
+      className={classNames('flex-grow flex flex-col justify-center pb-3', {
+        'vh-100': !allApplicants
+       })}>
       <Header />
       <div className="flex-grow flex flex-col justify-center">
         <div className="d-flex justify-content-center p-2">
@@ -65,14 +67,14 @@ const Voting = () => {
         </div>
         <form className="flex flex-col">
           <div className="flex flex-wrap -mx-3 mb-4 d-flex justify-content-center">
-            {allApplicants.map((applicant, index) => {
+            {allApplicants?.map((applicant, index) => {
               return (
                 <ApplicantCard
                   key={`Applicant${index}`}
                   applicant={applicant}
                   setSelectedApplicant={setSelectedApplicant}
-                  selected = {votedFor === selectedApplicant}
-                  isVoted = {isVoted}
+                  selected={votedFor === selectedApplicant}
+                  isVoted={isVoted}
                 />
               );
             })}

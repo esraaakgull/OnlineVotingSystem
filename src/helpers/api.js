@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { getFromLocalStorage } from './storage';
+import { showErrorNotification } from './toasts';
 
 export const api = () => {
   const token = getFromLocalStorage(process.env.jwtStorageName);
@@ -410,13 +411,13 @@ const registerUserIntoVotingSystem = async (registrationInfo) => {
   return response;
 };
 
-export const setElectionDates = async (electionStartDate,electionFinishDate) => {
+export const setElectionDates = async (electionStartDate, electionFinishDate) => {
   let response = null;
   try {
     response = axios
       .post('http://localhost:8082/dates/election', {
-        electionStartDate:electionStartDate,
-        electionFinishDate:electionFinishDate
+        electionStartDate: electionStartDate,
+        electionFinishDate: electionFinishDate
       })
       .then((res) => {
         return res;
@@ -431,21 +432,37 @@ export const setElectionDates = async (electionStartDate,electionFinishDate) => 
   return response;
 };
 
-export const setApplicationDates = async (applicationStartDate,applicationFinishDate) => {
+export const setApplicationDates = async (applicationStartDate, applicationFinishDate) => {
   let response = null;
   try {
-    response = axios.post('http://localhost:8082/dates/application', {
-      applicationStartDate:applicationStartDate,
-      applicationFinishDate:applicationFinishDate
-    })
-    .then((res) => {
-      return res
-    })
-    .catch((error) => {
+    response = axios
+      .post('http://localhost:8082/dates/application', {
+        applicationStartDate: applicationStartDate,
+        applicationFinishDate: applicationFinishDate
+      })
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
         return error;
-    });
-  }catch(err) {
+      });
+  } catch (err) {
     console.log(err);
   }
   return response;
-}
+};
+export const addApplicationFiles = async (userId,formData) => {
+  let res = null;
+  try {
+    res = await api().post('http://localhost:8082/applications/upload/user-id/' + userId, formData, {
+      headers: {
+        'Content-Type': 'form/multipart'
+      },
+    })
+    .then( (res) => {return res})
+    .catch( (error) => {return res});
+  } catch (err) {
+    console.log(err);
+  }
+  return res;
+};
