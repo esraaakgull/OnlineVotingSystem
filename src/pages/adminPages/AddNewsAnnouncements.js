@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addAnnouncement } from '../../helpers/api';
+import { addAnnouncement, api } from '../../helpers/api';
 import Header from '../../layouts/Header';
 import { showErrorNotification, showSuccessNotification } from '../../helpers/toasts';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ const AddNewsAnnouncements = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  
   const handleSubmitAddAnnouncement = async () => {
     setIsLoading(true);
     const res = await addAnnouncement(title, description);

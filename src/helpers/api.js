@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { getFromLocalStorage } from './storage';
 import { showErrorNotification } from './toasts';
+const baseAppUrl = 'http://localhost:8082';
 
 export const api = () => {
   const token = getFromLocalStorage(process.env.jwtStorageName);
@@ -114,17 +115,18 @@ if you send above data again then you get this error:
   timeStamp: "2023-05-31T23:23:02.021663"
 */
 
-export const createAnApplication = async (applicationReq) => {
+export const createAnApplication = async (userId) => {
   let res = null;
   try {
+    console.log(api());
     res = await axios
       .post('http://localhost:8082/applications', {
-        transcriptPath: applicationReq.transcriptPath,
-        applicationRequest: applicationReq.applicationRequest,
-        studentCertificate: applicationReq.studentCertificate,
-        political: applicationReq.political,
-        userId: applicationReq.userId,
-        applicationId: applicationReq.applicationId
+        transcriptPath: baseAppUrl + '/applications/download-transcript/user-id/' + userId,
+        applicationRequest: baseAppUrl + '/applications/download-application/user-id/' + userId,
+        studentCertificate:
+          baseAppUrl + '/applications/download-student-certificate/user-id/' + userId,
+        political: baseAppUrl + '/applications/download-politicial/user-id/' + userId,
+        userId: userId
       })
       .then((res) => {
         console.log(res);
@@ -156,7 +158,7 @@ export const updateApplication = async (updatedApplication) => {
 };
 
 export const approveApplication = (applicationId) => {
-  return axios.post('http://localhost:8082/applications/approve/6', {});
+  return axios.post('http://localhost:8082/applications/approve/' + applicationId);
 };
 
 export const sendNotification = async (title, description) => {
@@ -451,18 +453,95 @@ export const setApplicationDates = async (applicationStartDate, applicationFinis
   }
   return response;
 };
-export const addApplicationFiles = async (userId,formData) => {
+export const addApplicationFiles = async (userId, formData) => {
   let res = null;
   try {
-    res = await api().post('http://localhost:8082/applications/upload/user-id/' + userId, formData, {
-      headers: {
-        'Content-Type': 'form/multipart'
-      },
-    })
-    .then( (res) => {return res})
-    .catch( (error) => {return res});
+    res = await api()
+      .post('http://localhost:8082/applications/upload/user-id/' + userId, formData, {
+        headers: {
+          'Content-Type': 'form/multipart'
+        }
+      })
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        return res;
+      });
   } catch (err) {
     console.log(err);
   }
   return res;
 };
+
+export const getIsAlreadySubmittedApplication = async (userId) => {
+  let res = null;
+  try {
+    res = await api()
+      .get('http://localhost:8082/applications/user-id/' + userId)
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        return res;
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  return res;
+};
+
+export const downloantTranscriptFromDatabase = async (userId) => {
+  let res = null;
+  try {
+    res = await api()
+      .get('http://localhost:8082/applications/download-transcript/user-id/' + userId)
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  return res;
+};
+
+
+export const getAllApplicationDates = async () => {
+  let res = null;
+  try {
+    res = await api()
+      .get('http://localhost:8082/dates/applications')
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  return res;
+};
+
+
+export const getAllElectionDates = async () => {
+  let res = null;
+  try {
+    res = await api()
+      .get('http://localhost:8082/dates/elections')
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } catch (err) {
+    console.log(err);
+  }
+  return res;
+};
+
+

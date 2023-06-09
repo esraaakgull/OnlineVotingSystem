@@ -5,7 +5,7 @@ import { showErrorNotification, showSuccessNotification } from '../../helpers/to
 import classNames from 'classnames';
 import Footer from '../../layouts/Footer';
 import ApplicationStatus from '../../components/ApplicationStatus';
-import { addApplicationFiles } from '../../helpers/api';
+import { addApplicationFiles, api, createAnApplication, getIsAlreadySubmittedApplication } from '../../helpers/api';
 
 const Applications = () => {
   const userContext = useContext(UserContext);
@@ -14,11 +14,18 @@ const Applications = () => {
   const [letter, setLetter] = useState('');
   const [transcript, setTranscript] = useState('');
   const formData = new FormData();
-  const formDataLetter = new FormData();
-  const formDataStudentCertificate = new FormData();
-  const formDataPoliticalPartyDoc = new FormData();
-
+  const [isAlreadySubmittedAppl,setIsAlreadySubmittedAppl] = useState(false);
+  
+  const handleSubmitButtonForApplication = async  () => {
+    const resp = await getIsAlreadySubmittedApplication(userContext.user.userId);
+    
+    if(!(resp == null) && resp.status === 200) {
+      setIsAlreadySubmittedAppl(true);
+    }
+  }
+  
   const handleSubmit = async () => {
+    handleSubmitButtonForApplication();
     if (!transcript || !politicalPartyDoc || !studentCertificate || !letter) {
       showErrorNotification(
         'Some documents are missing. Please be sure that you uploaded 4 documents that are listed on the page.'
@@ -48,9 +55,11 @@ const Applications = () => {
     formData.append('political', politicalPartyDoc);
     formData.append('studentCertificate', studentCertificate);
     const res = await addApplicationFiles(userContext.user.userId, formData);
+    const createAnApplicationResponse = await createAnApplication(userContext.user.userId);
     if (res) {
-      showSuccessNotification('Tekbrikler! Tüm belgeler başarıyla yüklendi!');
+      showSuccessNotification('Tebrikler! Tüm belgeler başarıyla yüklendi!');
     } else {
+      showErrorNotification("Bir Hata Oluştu.")
     }
   };
 
@@ -62,6 +71,7 @@ const Applications = () => {
   const checkSize = (fileToBeChecked) => fileToBeChecked.size <= 2000000;
 
   return (
+
     <div className="flex-grow flex flex-col justify-center-top">
       <Header />
       {userContext.applications && <ApplicationStatus />}
@@ -152,13 +162,16 @@ const Applications = () => {
                 </p>
               )}
             </div>
+            {isAlreadySubmittedAppl ? <div className='text-red-500'>Önceden başvuru yaptınız!</div>:""}
           </div>
           <button
-            className={classNames(
-              'hover:bg-red-600 bg-red-700 rounded-full text-white font-bold py-2 px-4 rounded'
-            )}
+            className={classNames('bg-red-500 text-white font-bold py-2 px-4 rounded', {
+              'bg-red-400': isAlreadySubmittedAppl,
+              'hover:bg-red-600': !isAlreadySubmittedAppl
+            })}
             type="button"
             onClick={handleSubmit}
+            disabled = {isAlreadySubmittedAppl}
             >
             Submit Documents
           </button>
