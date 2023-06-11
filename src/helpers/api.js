@@ -301,7 +301,8 @@ export const handleLogin = async (email, password) => {
     if (isValidUser.status === 200) {
       const registrationInfo = await getAllInfoFromExternalToSave(email, password);
       const registerResponse = await registerUserIntoVotingSystem(registrationInfo.data);
-      if (registerResponse.status === 200) return registrationInfo;
+      const userInfo = await getUserInfo(email);
+      if (registerResponse.status === 200) return userInfo;
       else return null;
     } else return null;
   }

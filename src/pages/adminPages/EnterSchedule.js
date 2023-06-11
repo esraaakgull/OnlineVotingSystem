@@ -9,27 +9,26 @@ const EnterSchedule = () => {
   const [electionFinishDate,setElectionFinishDate] = useState("");
   const [applicationStartDate,setApplicationStartDate] = useState("");
   const [applicationFinishDate,setApplicationFinishDate] = useState("");
-
-
   const [alreadyApplications,setAlreadyApplications] = useState([]);
   const [alreadyElections, setAlreadyElectionDates] = useState([]);
+  const [templeate,setTempleate] = useState({});
 
   const handleTogetAllApplicationDates = async () => {
     const response = await getAllApplicationDates();
-    
+    console.log(response.data);
     setAlreadyApplications(response.data);
-    console.log(alreadyApplications)
+    
   }
   
 
   const handleToGetAllElectionDates = async () => {
     const response = await getAllElectionDates();
     setAlreadyElectionDates(response.data);
-    console.log(alreadyElections)
   }
 
   useEffect( () => {
     handleTogetAllApplicationDates();
+    
     handleToGetAllElectionDates();
   }, [])
 
@@ -43,9 +42,20 @@ const EnterSchedule = () => {
     }
   }
 
+  const formatApplicationDate = (formatApplicationDate) => {
+    let dateStart = formatApplicationDate.applicationStartDate.split("T")[0];
+    let timeStart = formatApplicationDate.applicationStartDate.split("T")[1];
+    let dateFinish = formatApplicationDate.applicationFinishDate.split("T")[0];
+    let timeFinish = formatApplicationDate.applicationFinishDate.split("T")[1];
+    let dateCreated  = formatApplicationDate.createdAt.split("T")[0];
+    let timeCreated = dateCreated.split(".")[0];
+    const response =  {dateStart,timeStart,dateFinish,timeFinish,dateCreated,timeCreated};
+    setTempleate(response);
+  }
 
+  console.log(alreadyApplications);
   return (
-    <div className="flex-grow flex-col justify-center-top vh-100 ">
+    <div className="flex-grow flex-col justify-center-top">
       <Header />
       <div className="mt-4">
         <div className="text-center ms-4 me-4 border border-dark rounded ">
@@ -110,18 +120,19 @@ const EnterSchedule = () => {
             <p className='text-left font-bold'>Applications Dates</p>
             <table className="table rounded-lg border-collapse border border-black ">
               <tbody>
-                {alreadyApplications.map((application) => {
-                  <tr>
+                {alreadyApplications?.map((application) => {
+                  formatApplicationDate(application);
+                  return (<tr>
                     <td width="415">
                       <p className="text-left">
-                        November 12th 2023 (09:00) – November 16th 2023 (17:00)
+                        {templeate.dateStart} - {templeate.timeStart}
                         
                       </p>
                       <p className="text-left">
                         <strong>Application to be a candidate</strong>
                       </p>
                     </td>
-                  </tr>
+                  </tr>)
                 })}
                 
                 

@@ -3,9 +3,9 @@ import photo from '../assets/images/profilePhoto.png';
 import UserContext from "../contexts/UserContext";
 
 
-const ReviewApplication = ({user, handleApprove}) => {
-  const handleReject = async () => {
-    const resp = approveApplication(user.applicationId);
+const ReviewApplication = ({user}) => {
+  const handleApprove = async () => {
+    const resp = await approveApplication(user.applicationId);
     console.log(resp);
   }
    
@@ -43,7 +43,7 @@ const ReviewApplication = ({user, handleApprove}) => {
         </div>
         <div className="row text-center p-2">
           <div className="col-md-6">
-            <a className="btn btn-danger" onClick={handleReject}>Reject</a>
+            <a className="btn btn-danger">Reject</a>
           </div>
           <div className="col-md-6">
             <a className="btn btn-success" onClick={handleApprove} >Approve</a>
